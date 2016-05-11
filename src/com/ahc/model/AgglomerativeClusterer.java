@@ -32,6 +32,11 @@ public class AgglomerativeClusterer {
         DistanceMatrix matrix = new DistanceMatrix(measure);
         matrix.computeAll(points);
         List<Cluster> result = new ArrayList<>();
+        Pair min = matrix.getMinimumDistance().getKey();
+        Cluster c1 = new Cluster(method);
+        c1.addPoint(min.getLeft());
+        c1.addPoint(min.getRight());
+        result.add(c1);
         return result;
     }
 
