@@ -7,9 +7,12 @@ package com.ahc.view;
 
 //import com.ahc.model.inputKompetensi;
 //import com.ahc.model.kompetensi;
+import com.ahc.model.Cluster;
+import com.ahc.model.Clusterable;
 import com.ahc.model.Data;
 import com.ahc.model.DistanceMatrix;
 import com.ahc.model.EuclideanDistance;
+import com.ahc.model.Pair;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -19,9 +22,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -446,7 +451,7 @@ public class inputan extends javax.swing.JFrame {
             for (int j = 0; j < points.length; j++) {
 //                System.out.print(ExcelTable.getValueAt(i, j + 4) + " ");
                 String content = Objects.toString(ExcelTable.getValueAt(i, j + 4));
-                
+
 //untuk memformat penghubung menjadi (,)                
                 if (content != null && !content.equals("") && !content.equals("null")) {
                     NumberFormat nf = NumberFormat.getInstance();
@@ -472,8 +477,22 @@ public class inputan extends javax.swing.JFrame {
         matrix = new DistanceMatrix(new EuclideanDistance());
         matrix.computeAll(data);
         System.out.println(matrix.toString());
-        
- 
+//buat nampilin map 
+        Map.Entry<Pair, Double> minimal = matrix.getMinimumDistance();
+//        Set set = minimal.entrySet();
+//        Iterator i = set.iterator)();
+//        while(i.hasNext()){
+//            Map.Entry me = (Map.Entry)i.next();
+//            System.out.print(me.getKey()+" : ");
+//            System.out.println(me.getValue());
+//        }
+//        System.out.println();
+//
+        System.out.println("minimal distance "+ minimal.getKey());
+//        Cluster cluster = new Cluster(Cluster.Method.SINGLE_LINKAGE);
+//
+//        System.out.println("cluster single linkage " + cluster);
+
     }//GEN-LAST:event_ProsesButtonActionPerformed
 
     private void OkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkButtonActionPerformed

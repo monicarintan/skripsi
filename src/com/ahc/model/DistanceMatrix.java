@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.apache.commons.math3.ml.clustering.Clusterable;
 import org.apache.commons.math3.ml.distance.DistanceMeasure;
 
 /**
@@ -32,8 +31,8 @@ public class DistanceMatrix {
     }
 
     public void computeAll(List<? extends Clusterable> points) {
-        double min = 1000;
-        double x = 0, y = 0;
+//        double min = 1000;
+//        double x = 0, y = 0;
         for (int i = 0; i < points.size() - 1; i++) {
 
             for (int j = i + 1; j < points.size(); j++) {
@@ -48,9 +47,9 @@ public class DistanceMatrix {
             }
         }
 
-        System.out.println("minimal " + min);
-        System.out.println(" i " + y);
-        System.out.println(" j " + x);
+//        System.out.println("minimal " + min);
+//        System.out.println(" i " + y);
+//        System.out.println(" j " + x);
     }
 
     public Map.Entry<Pair, Double> getMinimumDistance() {
@@ -69,7 +68,8 @@ public class DistanceMatrix {
     public double getDistance(Clusterable point1, Clusterable point2) {
         Pair p = new Pair(point1, point2);
         if (!matrix.containsKey(p)) {
-            double dist = distanceMeasure.compute(point1.getPoint(), point2.getPoint());
+            double dist;
+            dist = point1.distanceTo(point2);
             matrix.put(p, dist);
             return dist;
         }

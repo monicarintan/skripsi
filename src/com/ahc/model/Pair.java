@@ -5,8 +5,6 @@
  */
 package com.ahc.model;
 
-import org.apache.commons.math3.ml.clustering.Clusterable;
-
 /**
  *
  * @author MONICA
@@ -27,6 +25,11 @@ public class Pair {
 
     public Clusterable getRight() {
         return element1;
+    }
+
+    @Override
+    public String toString() {
+        return element0.toString() + "," + element1.toString();
     }
 
     @Override

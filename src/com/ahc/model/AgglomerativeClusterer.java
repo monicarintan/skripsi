@@ -3,32 +3,36 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.ahc.model;
 
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.ml.clustering.Cluster;
-import org.apache.commons.math3.ml.clustering.Clusterable;
-import org.apache.commons.math3.ml.clustering.Clusterer;
 import org.apache.commons.math3.ml.distance.DistanceMeasure;
 
 /**
  *
  * @author MONICA
  */
-public class AgglomerativeClusterer extends Clusterer<Clusterable>{
-public AgglomerativeClusterer(DistanceMeasure measure){
-    super(measure);
-}
-    @Override
-    public List<? extends Cluster<Clusterable>> cluster(Collection<Clusterable> points) throws MathIllegalArgumentException, ConvergenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+public class AgglomerativeClusterer {
+
+    private final com.ahc.model.Cluster.Method method;
+    private final DistanceMeasure measure;
+
+    public AgglomerativeClusterer(DistanceMeasure measure, com.ahc.model.Cluster.Method method) {
+        this.measure = (measure);
+        this.method = method;
     }
-   
-    
-    
-    
+
+    public List<? extends Cluster> cluster(List<? extends Clusterable> points) throws MathIllegalArgumentException, ConvergenceException {
+        DistanceMatrix matrix = new DistanceMatrix(measure);
+        matrix.computeAll(points);
+        List<Cluster> result = new ArrayList<>();
+        return result;
+    }
+
 }
