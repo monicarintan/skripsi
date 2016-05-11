@@ -30,7 +30,7 @@ public class DistanceMatrix {
         matrix = new HashMap<>();
     }
 
-    public void computeAll(List<? extends Clusterable> points) {
+    public void computeAll(List<? extends Point> points) {
 //        double min = 1000;
 //        double x = 0, y = 0;
         for (int i = 0; i < points.size() - 1; i++) {
@@ -65,7 +65,7 @@ public class DistanceMatrix {
 
     //get distance untuk mengitung / mengambil jarak antara 2 point
     //kalo belum ada di daftar, dia ngtung trs dimasukin.
-    public double getDistance(Clusterable point1, Clusterable point2) {
+    public double getDistance(Point point1, Point point2) {
         Pair p = new Pair(point1, point2);
         if (!matrix.containsKey(p)) {
             double dist;

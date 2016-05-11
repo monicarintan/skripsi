@@ -28,7 +28,7 @@ public class AgglomerativeClusterer {
         this.method = method;
     }
 
-    public List<? extends Cluster> cluster(List<? extends Clusterable> points) throws MathIllegalArgumentException, ConvergenceException {
+    public List<? extends Cluster> cluster(List<? extends Point> points) throws MathIllegalArgumentException, ConvergenceException {
         DistanceMatrix matrix = new DistanceMatrix(measure);
         matrix.computeAll(points);
         List<Cluster> result = new ArrayList<>();

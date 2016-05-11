@@ -14,9 +14,9 @@ import java.util.List;
  *
  * @author MONICA
  */
-public class Cluster implements Clusterable {
+public class Cluster extends Point {
 
-    private Method method;
+    private final Method method;
 
     private static double avg(List<Double> dists) {
         double sum = 0;
@@ -36,14 +36,14 @@ public class Cluster implements Clusterable {
         points = new ArrayList<>();
     }
 
-    private final List<Clusterable> points;
+    private final List<Point> points;
 
-    public void addPoint(Clusterable point) {
+    public void addPoint(Point point) {
         points.add(point);
     }
 
     @Override
-    public double[] getPoint() {
+    public double[] getValues() {
         return null;
     }
 
@@ -57,12 +57,12 @@ public class Cluster implements Clusterable {
 //        return min;
 //    }
     @Override
-    public double distanceTo(Clusterable other) {
+    public double distanceTo(Point other) {
         List<Double> dists = new ArrayList<>();
-        for (Clusterable cl : points) {
+        for (Point cl : points) {
             if (other instanceof Cluster) {
                 Cluster c = (Cluster) other;
-                for (Clusterable cls : c.getAllPoints()) {
+                for (Point cls : c.getAllPoints()) {
                     double dist = cl.distanceTo(cls);
                     if (!dists.contains(dist)) {
                         dists.add(dist);
@@ -85,14 +85,18 @@ public class Cluster implements Clusterable {
         }
     }
 
-    public List<Clusterable> getAllPoints() {
-        List<Clusterable> result = new ArrayList<>();
-        for (Clusterable c : points) {
-            if (c instanceof Data) {
-                result.add(c);
+    public List<Point> getAllPoints() {
+        List<Point> result = new ArrayList<>();
+        for (Point c : points) {
+            if (c instanceof Point) {
+                if (!result.contains(c)) {
+                    result.add(c);
+                }
             } else if (c instanceof Cluster) {
-                for (Clusterable c1 : ((Cluster) c).getAllPoints()) {
-                    result.add(c1);
+                for (Point c1 : ((Cluster) c).getAllPoints()) {
+                    if (!result.contains(c1)) {
+                        result.add(c1);
+                    }
                 }
             }
         }

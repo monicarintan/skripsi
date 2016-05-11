@@ -5,7 +5,7 @@
  */
 package com.ahc.view;
 
-import com.ahc.model.Data;
+import com.ahc.model.Point;
 import com.ahc.model.DistanceMatrix;
 import com.ahc.model.EuclideanDistance;
 import java.io.File;
@@ -42,7 +42,7 @@ public class input extends javax.swing.JFrame {
     /**
      * Creates new form input
      */
-    private ArrayList<Data> data;
+    private ArrayListPointa> data;
     private File namaFileExcel;
     private JFileChooser chooser = new JFileChooser();
 
@@ -364,7 +364,7 @@ public class input extends javax.swing.JFrame {
                 }
             }
             int[] cols = AtributTable.getSelectedRows();
-            Data d = new Data(id, points, cols);
+          Pointta d = nPointata(id, points, cols);
             data.add(d);
             System.out.println();
         }
@@ -473,7 +473,7 @@ public class input extends javax.swing.JFrame {
                         namaKolom[j] = sheet.getCell(j, 0).getContents().toString();
 
                     }
-                    // Data DATA
+                   PointData DATA
                     for (int j = 0; j < jmlCol; j++) {
                         for (int i = 1; i < jmlRow; i++) {
                             isiData[i - 1][j] = sheet.getCell(j, i).getContents();

@@ -11,19 +11,19 @@ package com.ahc.model;
  */
 public class Pair {
 
-    private Clusterable element0;
-    private Clusterable element1;
+    private Point element0;
+    private Point element1;
 
-    public Pair(Clusterable element0, Clusterable element1) {
+    public Pair(Point element0, Point element1) {
         this.element0 = element0;
         this.element1 = element1;
     }
 
-    public Clusterable getLeft() {
+    public Point getLeft() {
         return element0;
     }
 
-    public Clusterable getRight() {
+    public Point getRight() {
         return element1;
     }
 

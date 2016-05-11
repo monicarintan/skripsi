@@ -8,8 +8,7 @@ package com.ahc.view;
 //import com.ahc.model.inputKompetensi;
 //import com.ahc.model.kompetensi;
 import com.ahc.model.Cluster;
-import com.ahc.model.Clusterable;
-import com.ahc.model.Data;
+import com.ahc.model.Point;
 import com.ahc.model.DistanceMatrix;
 import com.ahc.model.EuclideanDistance;
 import com.ahc.model.Pair;
@@ -43,7 +42,7 @@ import jxl.read.biff.BiffException;
 public class inputan extends javax.swing.JFrame {
 
     private DistanceMatrix matrix;
-    private ArrayList<Data> data;
+    private ArrayList<Point> data;
     private File namaFileExcel;
     private JFileChooser chooser = new JFileChooser();
 
@@ -296,7 +295,7 @@ public class inputan extends javax.swing.JFrame {
 //                        }
                     }
 
-                    // Data DATA
+                    //Pointta DATA
                     for (int j = 0; j < jmlCol; j++) {
                         for (int i = 1; i < jmlRow; i++) {
                             isiData[i - 1][j] = sheet.getCell(j, i).getContents();
@@ -304,7 +303,7 @@ public class inputan extends javax.swing.JFrame {
                     }
                 }
 
-                // MASUKAN JUDUL KOLOM DAN Data DATA KE TABEL
+                // MASUKAN JUDUL KOLOM DPointata DATA KE TABEL
                 ExcelTable.setModel(new javax.swing.table.DefaultTableModel(isiData, namaKolom));
 
                 ExcelTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -468,7 +467,7 @@ public class inputan extends javax.swing.JFrame {
                 }
             }
             int[] cols = tblAtribut.getSelectedRows();
-            Data d = new Data(id, points, cols);
+            Point d = new Point(id, points, cols);
             data.add(d);
             System.out.println();
         }
@@ -488,7 +487,7 @@ public class inputan extends javax.swing.JFrame {
 //        }
 //        System.out.println();
 //
-        System.out.println("minimal distance "+ minimal.getKey());
+        System.out.println("minimal distance " + minimal.getKey());
 //        Cluster cluster = new Cluster(Cluster.Method.SINGLE_LINKAGE);
 //
 //        System.out.println("cluster single linkage " + cluster);
