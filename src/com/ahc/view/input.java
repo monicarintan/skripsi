@@ -5,9 +5,6 @@
  */
 package com.ahc.view;
 
-import com.ahc.model.Point;
-import com.ahc.model.DistanceMatrix;
-import com.ahc.model.EuclideanDistance;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -22,13 +19,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;

@@ -6,17 +6,22 @@
 package com.ahc.model;
 
 import java.util.ArrayList;
-import static java.util.Collections.max;
-import static java.util.Collections.min;
 import java.util.List;
 
+import static java.util.Collections.max;
+import static java.util.Collections.min;
+
 /**
- *
  * @author MONICA
  */
 public class Cluster extends Point {
-
     private final Method method;
+    private final Point[] points=new Point[2];
+    private String id;
+
+    public Cluster(Method method) {
+        this.method = method;
+    }
 
     private static double avg(List<Double> dists) {
         double sum = 0;
@@ -26,20 +31,11 @@ public class Cluster extends Point {
         return sum / ((double) dists.size());
     }
 
-    public enum Method {
-
-        SINGLE_LINKAGE, COMPLETE_LINKAGE, AVERAGE_LINKAGE
-    }
-
-    public Cluster(Method method) {
-        this.method = method;
-        points = new ArrayList<>();
-    }
-
-    private final List<Point> points;
-
     public void addPoint(Point point) {
-        points.add(point);
+        if(points[0]==null)points[0]=point;
+        else if(points[1]==null)points[1]=point;
+        else throw new IllegalArgumentException("already clustered");
+//        points.add(point);
     }
 
     @Override
@@ -47,7 +43,7 @@ public class Cluster extends Point {
         return null;
     }
 
-//    private static double min(List<Double> dists) {
+    //    private static double min(List<Double> dists) {
 //        double min = dists.get(0);
 //        for (double i : dists) {
 //            if (i < min) {
@@ -61,8 +57,7 @@ public class Cluster extends Point {
         List<Double> dists = new ArrayList<>();
         for (Point cl : points) {
             if (other instanceof Cluster) {
-                Cluster c = (Cluster) other;
-                for (Point cls : c.getAllPoints()) {
+                for (Point cls : ((Cluster)other).getAllPoints()) {
                     double dist = cl.distanceTo(cls);
                     if (!dists.contains(dist)) {
                         dists.add(dist);
@@ -88,18 +83,28 @@ public class Cluster extends Point {
     public List<Point> getAllPoints() {
         List<Point> result = new ArrayList<>();
         for (Point c : points) {
-            if (c instanceof Point) {
-                if (!result.contains(c)) {
-                    result.add(c);
-                }
-            } else if (c instanceof Cluster) {
+            if (c instanceof Cluster) {
                 for (Point c1 : ((Cluster) c).getAllPoints()) {
                     if (!result.contains(c1)) {
                         result.add(c1);
                     }
                 }
+            } else  {
+                if (!result.contains(c)) {
+                    result.add(c);
+                }
             }
         }
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return getAllPoints().toString();
+    }
+
+    public enum Method {
+
+        SINGLE_LINKAGE, COMPLETE_LINKAGE, AVERAGE_LINKAGE
     }
 }
