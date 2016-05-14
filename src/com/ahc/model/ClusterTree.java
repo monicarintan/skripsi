@@ -15,4 +15,8 @@ public class ClusterTree {
     public ClusterTree(Cluster root) {
         this.root = root;
     }
+
+    public Object getRoot() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
