@@ -26,12 +26,16 @@ public class AgglomerativeClusterer {
     public ClusterTree cluster(List<? extends Point> points) {
         ArrayList<Point> unclusteredPoints = new ArrayList<>(points);
         while (unclusteredPoints.size() > 1) {
-            DistanceMatrix matrix = new DistanceMatrix(new EuclideanDistance());
+            DistanceMatrix matrix = new DistanceMatrix(measure);
             matrix.computeAll(unclusteredPoints);
             Pair min = matrix.getMinimumDistance().getKey();
-            Cluster c = new Cluster(Cluster.Method.SINGLE_LINKAGE);
-            c.addPoint(min.getLeft());
-            c.addPoint(min.getRight());
+            Cluster c = new Cluster(method, min);
+            if (min.getLeft() instanceof Cluster) {
+                ((Cluster) min.getLeft()).setParent(c);
+            }
+            if (min.getRight() instanceof Cluster) {
+                ((Cluster) min.getRight()).setParent(c);
+            }
             unclusteredPoints.remove(min.getLeft());
             unclusteredPoints.remove(min.getRight());
             unclusteredPoints.add(c);

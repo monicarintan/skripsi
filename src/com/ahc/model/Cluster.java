@@ -16,9 +16,23 @@ import static java.util.Collections.min;
  */
 public class Cluster extends Point {
 
+    private static int number = 1;
     private final Method method;
     private final Point[] points = new Point[2];
     private String id;
+
+    public String getId() {
+        return id;
+    }
+    private Cluster parent;
+
+    public Cluster getParent() {
+        return parent;
+    }
+
+    public void setParent(Cluster parent) {
+        this.parent = parent;
+    }
 
     public Point getPoint(int index) {
         return points[index];
@@ -29,9 +43,16 @@ public class Cluster extends Point {
     }
 
     public Cluster(Method method) {
+        id = "Cluster #" + number++;
         this.method = method;
     }
 
+    public Cluster(Method method, Pair points) {
+        this(method);
+        this.points[0] = points.getLeft();
+        this.points[1] = points.getRight();
+    }
+    
     private static double avg(List<Double> dists) {
         double sum = 0;
         for (double d : dists) {
