@@ -5,6 +5,7 @@
  */
 package com.ahc.model;
 
+import static java.lang.Math.sqrt;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +15,17 @@ import static java.util.Collections.min;
 /**
  * @author MONICA
  */
-public class Cluster extends Point {
+public class Cluster {
 
     private static int number = 1;
     private final Method method;
-    private final Point[] points = new Point[2];
+    private final Cluster[] clusters = new Cluster[2];
     private String id;
+    private Point point;
+
+    public boolean isPoint() {
+        return point != null;
+    }
 
     public String getId() {
         return id;
@@ -34,12 +40,12 @@ public class Cluster extends Point {
         this.parent = parent;
     }
 
-    public Point getPoint(int index) {
-        return points[index];
+    public Cluster getPoint(int index) {
+        return clusters[index];
     }
 
-    public Point[] getPoints() {
-        return points;
+    public Cluster[] getClusters() {
+        return clusters;
     }
 
     public Cluster(Method method) {
@@ -49,10 +55,15 @@ public class Cluster extends Point {
 
     public Cluster(Method method, Pair points) {
         this(method);
-        this.points[0] = points.getLeft();
-        this.points[1] = points.getRight();
+        this.clusters[0] = points.getLeft();
+        this.clusters[1] = points.getRight();
     }
-    
+
+    public Cluster(Method method, Point point) {
+        this(method);
+        this.point = point;
+    }
+
     private static double avg(List<Double> dists) {
         double sum = 0;
         for (double d : dists) {
@@ -61,20 +72,15 @@ public class Cluster extends Point {
         return sum / ((double) dists.size());
     }
 
-    public void addPoint(Point point) {
-        if (points[0] == null) {
-            points[0] = point;
-        } else if (points[1] == null) {
-            points[1] = point;
+    public void addPoint(Cluster point) {
+        if (clusters[0] == null) {
+            clusters[0] = point;
+        } else if (clusters[1] == null) {
+            clusters[1] = point;
         } else {
             throw new IllegalArgumentException("already clustered");
         }
 //        points.add(point);
-    }
-
-    @Override
-    public double[] getValues() {
-        return null;
     }
 
     //    private static double min(List<Double> dists) {
@@ -86,21 +92,49 @@ public class Cluster extends Point {
 //        }
 //        return min;
 //    }
-    @Override
-    public double distanceTo(Point other) {
+    public double distanceTo(Cluster other) {
         List<Double> dists = new ArrayList<>();
-        for (Point cl : points) {
-            if (other instanceof Cluster) {
-                for (Point cls : ((Cluster) other).getAllPoints()) {
-                    double dist = cl.distanceTo(cls);
+
+        if (isPoint()) {
+            if (other.isPoint()) { // point ke point
+                double[] p1 = getValues();
+                double[] p2 = other.getValues();
+                double sum = 0;
+                for (int i = 0; i < p1.length; i++) {
+                    sum += (p1[i] - p2[i]) * (p1[i] - p2[i]);
+                }
+                return sqrt(sum);
+            } else { // point ke cluster
+                return other.distanceTo(this);
+            }
+        } else {
+            if (other.isPoint()) { //  cluster ke point
+                for (Point p : getAllPoints()) {
+                    double[] p1 = p.getValues();
+                    double[] p2 = other.getValues();
+                    double sum = 0;
+                    for (int i = 0; i < p1.length; i++) {
+                        sum += (p1[i] - p2[i]) * (p1[i] - p2[i]);
+                    }
+                    double dist = sqrt(sum);
                     if (!dists.contains(dist)) {
                         dists.add(dist);
                     }
                 }
-            } else {
-                double dist = cl.distanceTo(other);
-                if (!dists.contains(dist)) {
-                    dists.add(dist);
+            } else { // cluster ke cluster
+                for (Point p : getAllPoints()) {
+                    for (Point ps : other.getAllPoints()) {
+                        double[] p1 = p.getValues();
+                        double[] p2 = ps.getValues();
+                        double sum = 0;
+                        for (int i = 0; i < p1.length; i++) {
+                            sum += (p1[i] - p2[i]) * (p1[i] - p2[i]);
+                        }
+                        double dist = sqrt(sum);
+                        if (!dists.contains(dist)) {
+                            dists.add(dist);
+                        }
+                    }
                 }
             }
         }
@@ -114,22 +148,27 @@ public class Cluster extends Point {
         }
     }
 
+    public double[] getValues() {
+        return point == null ? null : point.getValues();
+    }
+
     public List<Point> getAllPoints() {
         List<Point> result = new ArrayList<>();
-        for (Point c : points) {
-            if (c instanceof Cluster) {
-                for (Point c1 : ((Cluster) c).getAllPoints()) {
-                    if (!result.contains(c1)) {
-                        result.add(c1);
-                    }
-                }
-            } else {
-                if (!result.contains(c)) {
-                    result.add(c);
-                }
+        if (isPoint()) {
+            result.add(point);
+            return result;
+        }
+        for (Cluster c : clusters) {
+            if (c != null) {
+                result.addAll(c.getAllPoints());
             }
         }
         return result;
+    }
+
+    public void setPoints(Pair points) {
+        this.clusters[0] = points.getLeft();
+        this.clusters[1] = points.getRight();
     }
 
     @Override

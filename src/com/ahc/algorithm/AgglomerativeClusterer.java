@@ -16,31 +16,32 @@ import java.util.List;
 public class AgglomerativeClusterer {
 
     private final com.ahc.model.Cluster.Method method;
-    private final DistanceMeasure measure;
 
-    public AgglomerativeClusterer(DistanceMeasure measure, com.ahc.model.Cluster.Method method) {
-        this.measure = (measure);
+    public AgglomerativeClusterer(com.ahc.model.Cluster.Method method) {
         this.method = method;
     }
 
-    public ClusterTree cluster(List<? extends Point> points) {
-        ArrayList<Point> unclusteredPoints = new ArrayList<>(points);
+    public Cluster cluster(List<? extends Point> points) {
+        ArrayList<Cluster> unclusteredPoints = new ArrayList<>();
+        for (Point p : points) {
+            Cluster c = new Cluster(method, p);
+            unclusteredPoints.add(c);
+        }
         while (unclusteredPoints.size() > 1) {
-            DistanceMatrix matrix = new DistanceMatrix(measure);
+            DistanceMatrix matrix = new DistanceMatrix();
             matrix.computeAll(unclusteredPoints);
-            Pair min = matrix.getMinimumDistance().getKey();
-            Cluster c = new Cluster(method, min);
-            if (min.getLeft() instanceof Cluster) {
-                ((Cluster) min.getLeft()).setParent(c);
-            }
-            if (min.getRight() instanceof Cluster) {
-                ((Cluster) min.getRight()).setParent(c);
-            }
+            Pair min = matrix.getMinimumDistance();
+            Cluster c = new Cluster(method,min);
+
+            ((Cluster) min.getLeft()).setParent(c);
+
+            ((Cluster) min.getRight()).setParent(c);
+
             unclusteredPoints.remove(min.getLeft());
             unclusteredPoints.remove(min.getRight());
             unclusteredPoints.add(c);
         }
-        return new ClusterTree((Cluster) unclusteredPoints.get(0));
+        return unclusteredPoints.get(0);
     }
 
 }

@@ -5,7 +5,6 @@
  */
 package com.ahc.model;
 
-import com.ahc.algorithm.EuclideanDistance;
 
 /**
  *
@@ -54,8 +53,5 @@ public class Point {
         return res;
     }
 
-    public double distanceTo(Point other) {
-        if(other instanceof Cluster)return other.distanceTo(this);
-        return new EuclideanDistance().compute(getValues(), other.getValues());
-    }
+ 
 }

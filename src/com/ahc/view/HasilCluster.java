@@ -7,6 +7,7 @@ package com.ahc.view;
 
 import com.ahc.model.Cluster;
 import com.ahc.model.ClusterTree;
+import com.ahc.model.ClusterTreeModel;
 import com.ahc.model.Point;
 import java.util.Enumeration;
 import javax.swing.JTree;
@@ -20,15 +21,17 @@ import javax.swing.tree.TreePath;
  */
 public class HasilCluster extends javax.swing.JDialog {
 
+    private Cluster cluster;
+
     /**
      * Creates new form HasilCluster
      */
-    public HasilCluster(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public HasilCluster(java.awt.Frame parent, Cluster c) {
+        super(parent, true);
+        cluster = c;
         initComponents();
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,6 +48,7 @@ public class HasilCluster extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jScrollPane1.setViewportView(jTree1);
+        jTree1.setModel(new ClusterTreeModel(cluster));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -101,7 +105,7 @@ public class HasilCluster extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                HasilCluster dialog = new HasilCluster(new javax.swing.JFrame(), true);
+                HasilCluster dialog = new HasilCluster(new javax.swing.JFrame(), null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

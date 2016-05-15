@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.ahc.algorithm.DistanceMeasure;
 
 /**
  *
@@ -19,39 +18,23 @@ import com.ahc.algorithm.DistanceMeasure;
  */
 public class DistanceMatrix {
 
-    private final DistanceMeasure distanceMeasure;
     //map?? karena arraylist nggak support buat mapping. maping pair point sama distancenya.
 
     private final Map<Pair, Double> matrix;
 
-    public DistanceMatrix(DistanceMeasure distancemeasure) {
-        distanceMeasure = distancemeasure;
+    public DistanceMatrix() {
         matrix = new HashMap<>();
     }
 
-    public void computeAll(List<? extends Point> points) {
-//        double min = 1000;
-//        double x = 0, y = 0;
-        for (int i = 0; i < points.size() - 1; i++) {
-
-            for (int j = i + 1; j < points.size(); j++) {
-
-                getDistance(points.get(i), points.get(j));
-//buat ngitung minimalnya nih.. tapi kok jadi ndobel2???? 
-//                if ((getDistance(points.get(i), points.get(j)) < min) && (getDistance(points.get(i), points.get(j)) != 0 && min != 0)) {
-//                    min = getDistance(points.get(i), points.get(j));
-//                    x = i;
-//                    y = j;
-//                }
+    public void computeAll(List<Cluster> clusters) {
+        for (int i = 0; i < clusters.size() - 1; i++) {
+            for (int j = i + 1; j < clusters.size(); j++) {
+                getDistance(clusters.get(i), clusters.get(j));
             }
         }
-
-//        System.out.println("minimal " + min);
-//        System.out.println(" i " + y);
-//        System.out.println(" j " + x);
     }
 
-    public Map.Entry<Pair, Double> getMinimumDistance() {
+    public Pair getMinimumDistance() {
         Set<Map.Entry<Pair, Double>> set = matrix.entrySet();
         Entry<Pair, Double> min = set.iterator().next();
         for (Entry<Pair, Double> e : set) {
@@ -59,12 +42,12 @@ public class DistanceMatrix {
                 min = e;
             }
         }
-        return min;
+        return min.getKey();
     }
 
     //get distance untuk mengitung / mengambil jarak antara 2 point
     //kalo belum ada di daftar, dia ngtung trs dimasukin.
-    public double getDistance(Point point1, Point point2) {
+    public double getDistance(Cluster point1, Cluster point2) {
         Pair p = new Pair(point1, point2);
         if (!matrix.containsKey(p)) {
             double dist;

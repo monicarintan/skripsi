@@ -7,9 +7,10 @@ package com.ahc.view;
 
 //import com.ahc.model.inputKompetensi;
 //import com.ahc.model.kompetensi;
+import com.ahc.algorithm.AgglomerativeClusterer;
 import com.ahc.model.Point;
 import com.ahc.model.DistanceMatrix;
-import com.ahc.algorithm.EuclideanDistance;
+import com.ahc.model.Cluster;
 import com.ahc.model.Pair;
 import java.io.File;
 import java.io.IOException;
@@ -469,12 +470,16 @@ public class inputan extends javax.swing.JFrame {
             System.out.println();
         }
         System.out.println(data);
-
-        matrix = new DistanceMatrix(new EuclideanDistance());
-        matrix.computeAll(data);
+        ArrayList<Cluster> clusters = new ArrayList<>();
+        for (Point p : data) {
+            Cluster c = new Cluster(Cluster.Method.SINGLE_LINKAGE, p);
+            clusters.add(c);
+        }
+        matrix = new DistanceMatrix();
+        matrix.computeAll(clusters);
         System.out.println(matrix.toString());
 //buat nampilin map 
-        Map.Entry<Pair, Double> minimal = matrix.getMinimumDistance();
+        Pair minimal = matrix.getMinimumDistance();
 //        Set set = minimal.entrySet();
 //        Iterator i = set.iterator)();
 //        while(i.hasNext()){
@@ -484,11 +489,13 @@ public class inputan extends javax.swing.JFrame {
 //        }
 //        System.out.println();
 //
-        System.out.println("minimal distance " + minimal.getKey());
+        System.out.println("minimal distance " + minimal);
 //        Cluster cluster = new Cluster(Cluster.Method.SINGLE_LINKAGE);
 //
 //        System.out.println("cluster single linkage " + cluster);
-
+        AgglomerativeClusterer clusterer = new AgglomerativeClusterer(Cluster.Method.SINGLE_LINKAGE);
+        Cluster rootCluster = clusterer.cluster(data);
+        new HasilCluster(this, rootCluster).setVisible(true);
     }//GEN-LAST:event_ProsesButtonActionPerformed
 
     private void OkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkButtonActionPerformed
