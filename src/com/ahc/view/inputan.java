@@ -74,6 +74,8 @@ public class inputan extends javax.swing.JFrame {
         tblAtribut = new javax.swing.JTable();
         ProsesButton = new javax.swing.JButton();
         OkButton = new javax.swing.JButton();
+        clusterField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -171,6 +173,8 @@ public class inputan extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Cluster");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -180,11 +184,14 @@ public class inputan extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(41, 41, 41)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(OkButton)
-                            .addComponent(ProsesButton))
+                            .addComponent(ProsesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clusterField))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -202,7 +209,11 @@ public class inputan extends javax.swing.JFrame {
                         .addComponent(OkButton)
                         .addGap(37, 37, 37)
                         .addComponent(ProsesButton)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clusterField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50))
         );
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
@@ -434,9 +445,14 @@ public class inputan extends javax.swing.JFrame {
     }//GEN-LAST:event_tblAtributMouseClicked
 
     private void ProsesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProsesButtonActionPerformed
-        if (data == null) {
-            data = new ArrayList<>();
-        }
+
+        String cl = clusterField.getText();
+        int input = Integer.parseInt(cl);
+
+        System.out.println("input : "+input);
+        
+        
+        data = new ArrayList<>();
         i:
         for (int i = 0; i < ExcelTable.getModel().getRowCount(); i++) {
 //            System.out.print(ExcelTable.getValueAt(i, 0) + " ");
@@ -471,6 +487,11 @@ public class inputan extends javax.swing.JFrame {
         }
         System.out.println(data);
         ArrayList<Cluster> clusters = new ArrayList<>();
+
+        //  for(int i=0;i<data.size();i++){
+        //      Point p=data.get(i);
+        // Iterator<Point> i=data.iterator();
+        // for(Point p=i.next(); i.hasNext(); p=i.next();){
         for (Point p : data) {
             Cluster c = new Cluster(Cluster.Method.SINGLE_LINKAGE, p);
             clusters.add(c);
@@ -494,8 +515,15 @@ public class inputan extends javax.swing.JFrame {
 //
 //        System.out.println("cluster single linkage " + cluster);
         AgglomerativeClusterer clusterer = new AgglomerativeClusterer(Cluster.Method.SINGLE_LINKAGE);
-        Cluster rootCluster = clusterer.cluster(data);
-        new HasilCluster(this, rootCluster).setVisible(true);
+//buat yg atas
+        
+//        Cluster rootCluster = clusterer.cluster(data);
+//        Cluster root = clusterer.clusterAll(data);
+//        new HasilCluster(this, root).setVisible(true);
+        
+        List<Cluster> fakeroot = clusterer.clusterCuttOff(data, input);
+       new HasilCluster(fakeroot).setVisible(true);
+//        new HasilCluster(this, fakeroot)instanceof .setVisible(true);
     }//GEN-LAST:event_ProsesButtonActionPerformed
 
     private void OkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkButtonActionPerformed
@@ -542,9 +570,11 @@ public class inputan extends javax.swing.JFrame {
     private javax.swing.JTable ExcelTable;
     private javax.swing.JButton OkButton;
     private javax.swing.JButton ProsesButton;
+    private javax.swing.JTextField clusterField;
     private javax.swing.JButton jButton1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

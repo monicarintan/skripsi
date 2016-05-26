@@ -33,7 +33,7 @@ public class DistanceMatrix {
             }
         }
     }
-
+    
     public Pair getMinimumDistance() {
         Set<Map.Entry<Pair, Double>> set = matrix.entrySet();
         Entry<Pair, Double> min = set.iterator().next();

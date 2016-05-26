@@ -10,7 +10,7 @@ package com.ahc.model;
  *
  * @author MONICA
  */
-public class Point {
+public class Point { 
 
     private String id;
     private double[] points;

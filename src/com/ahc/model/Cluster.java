@@ -22,6 +22,7 @@ public class Cluster {
     private final Cluster[] clusters = new Cluster[2];
     private String id;
     private Point point;
+    private Cluster parent;
 
     public boolean isPoint() {
         return point != null;
@@ -30,7 +31,6 @@ public class Cluster {
     public String getId() {
         return id;
     }
-    private Cluster parent;
 
     public Cluster getParent() {
         return parent;
@@ -48,19 +48,19 @@ public class Cluster {
         return clusters;
     }
 
-    public Cluster(Method method) {
-        id = "Cluster #" + number++;
-        this.method = method;
-    }
-
     public Cluster(Method method, Pair points) {
-        this(method);
+        this.method = method;
         this.clusters[0] = points.getLeft();
         this.clusters[1] = points.getRight();
     }
 
+    /**
+     *
+     * @param method
+     * @param point
+     */
     public Cluster(Method method, Point point) {
-        this(method);
+        this.method = method;
         this.point = point;
     }
 
@@ -72,17 +72,6 @@ public class Cluster {
         return sum / ((double) dists.size());
     }
 
-    public void addPoint(Cluster point) {
-        if (clusters[0] == null) {
-            clusters[0] = point;
-        } else if (clusters[1] == null) {
-            clusters[1] = point;
-        } else {
-            throw new IllegalArgumentException("already clustered");
-        }
-//        points.add(point);
-    }
-
     //    private static double min(List<Double> dists) {
 //        double min = dists.get(0);
 //        for (double i : dists) {
@@ -92,9 +81,10 @@ public class Cluster {
 //        }
 //        return min;
 //    }
+    
     public double distanceTo(Cluster other) {
         List<Double> dists = new ArrayList<>();
-
+//list baru buat nampung daftar jaraknya
         if (isPoint()) {
             if (other.isPoint()) { // point ke point
                 double[] p1 = getValues();
@@ -148,9 +138,11 @@ public class Cluster {
         }
     }
 
-    public double[] getValues() {
+    public double[] getValues() { 
         return point == null ? null : point.getValues();
     }
+    
+// untuk dapetin point2 yg didalemnya
 
     public List<Point> getAllPoints() {
         List<Point> result = new ArrayList<>();
@@ -164,11 +156,6 @@ public class Cluster {
             }
         }
         return result;
-    }
-
-    public void setPoints(Pair points) {
-        this.clusters[0] = points.getLeft();
-        this.clusters[1] = points.getRight();
     }
 
     @Override
