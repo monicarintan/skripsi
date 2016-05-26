@@ -70,8 +70,7 @@
           <SubComponents>
             <Component class="javax.swing.JTree" name="jTree1">
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTree1.setModel(new ClusterTreeModel(cluster!=null?cluster:clusters));"/>
-                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="jScrollPane1.setViewportView(jTree1);&#xa;jTree1.setModel(new ClusterTreeModel(cluster));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if(cluster==null) jTree1.setModel(new ClusterTreeModel(clusters));&#xa;else jTree1.setModel(new ClusterTreeModel(cluster));"/>
               </AuxValues>
             </Component>
           </SubComponents>

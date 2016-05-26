@@ -27,7 +27,7 @@ public class AgglomerativeClusterer {
             Cluster c = new Cluster(method, p);
             unclusteredPoints.add(c);
         }
-        while (unclusteredPoints.size() >= nCluster) {
+        while (unclusteredPoints.size() > nCluster) {
             DistanceMatrix matrix = new DistanceMatrix();
             matrix.computeAll(unclusteredPoints);
             Pair min = matrix.getMinimumDistance();

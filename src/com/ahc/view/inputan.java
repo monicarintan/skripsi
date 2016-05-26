@@ -449,9 +449,8 @@ public class inputan extends javax.swing.JFrame {
         String cl = clusterField.getText();
         int input = Integer.parseInt(cl);
 
-        System.out.println("input : "+input);
-        
-        
+        System.out.println("input : " + input);
+
         data = new ArrayList<>();
         i:
         for (int i = 0; i < ExcelTable.getModel().getRowCount(); i++) {
@@ -516,13 +515,12 @@ public class inputan extends javax.swing.JFrame {
 //        System.out.println("cluster single linkage " + cluster);
         AgglomerativeClusterer clusterer = new AgglomerativeClusterer(Cluster.Method.SINGLE_LINKAGE);
 //buat yg atas
-        
+
 //        Cluster rootCluster = clusterer.cluster(data);
 //        Cluster root = clusterer.clusterAll(data);
 //        new HasilCluster(this, root).setVisible(true);
-        
         List<Cluster> fakeroot = clusterer.clusterCuttOff(data, input);
-       new HasilCluster(fakeroot).setVisible(true);
+        new HasilCluster(this, fakeroot).setVisible(true);
 //        new HasilCluster(this, fakeroot)instanceof .setVisible(true);
     }//GEN-LAST:event_ProsesButtonActionPerformed
 

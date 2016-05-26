@@ -9,6 +9,7 @@ import com.ahc.model.Cluster;
 //import com.ahc.model.ClusterTree;
 import com.ahc.model.ClusterTreeModel;
 import com.ahc.model.Point;
+import java.awt.Frame;
 import java.util.Enumeration;
 import java.util.List;
 import javax.swing.JTree;
@@ -22,8 +23,8 @@ import javax.swing.tree.TreePath;
  */
 public class HasilCluster extends javax.swing.JDialog {
 
-    private Cluster cluster;
-    private List<Cluster> clusters;
+    private final Cluster cluster;
+    private final List<Cluster> clusters;
 
     /**
      * Creates new form HasilCluster
@@ -31,6 +32,7 @@ public class HasilCluster extends javax.swing.JDialog {
     public HasilCluster(java.awt.Frame parent, Cluster c) {
         super(parent, true);
         cluster = c;
+        clusters = null;
         initComponents();
     }
 //
@@ -38,8 +40,10 @@ public class HasilCluster extends javax.swing.JDialog {
 //        this.cluster = cluster;
 //    }
 
-   public HasilCluster(List<Cluster> Clusters) {
+    public HasilCluster(Frame parent, List<Cluster> Clusters) {
+        super(parent, true);
         this.clusters = Clusters;
+        cluster = null;
         initComponents();
     }
 
@@ -61,9 +65,8 @@ public class HasilCluster extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jScrollPane1.setViewportView(jTree1);
-        jTree1.setModel(new ClusterTreeModel(cluster));
-        jScrollPane1.setViewportView(jTree1);
-        jTree1.setModel(new ClusterTreeModel(cluster));
+        if(cluster==null) jTree1.setModel(new ClusterTreeModel(clusters));
+        else jTree1.setModel(new ClusterTreeModel(cluster));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -143,7 +146,7 @@ public class HasilCluster extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                HasilCluster dialog = new HasilCluster(new javax.swing.JFrame(), null);
+                HasilCluster dialog = new HasilCluster(new javax.swing.JFrame(), (Cluster) null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
