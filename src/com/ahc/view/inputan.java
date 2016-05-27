@@ -12,8 +12,12 @@ import com.ahc.model.Point;
 import com.ahc.model.DistanceMatrix;
 import com.ahc.model.Cluster;
 import com.ahc.model.Pair;
+import java.awt.Frame;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -24,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Properties;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -42,14 +47,13 @@ public class inputan extends javax.swing.JFrame {
     private DistanceMatrix matrix;
     private ArrayList<Point> data;
     private File namaFileExcel;
-    private JFileChooser chooser = new JFileChooser();
 
     /**
      * Creates new form inputan
      */
     public inputan() {
         initComponents();
-        setExtendedState(this.MAXIMIZED_BOTH);
+        setExtendedState(Frame.MAXIMIZED_BOTH);
 
     }
 
@@ -249,17 +253,32 @@ public class inputan extends javax.swing.JFrame {
 
     private void openFile() {
         final JFileChooser fc = new JFileChooser();
+        Properties prop = new Properties();
+        try (InputStream is = new FileInputStream("default.prop")) {
+            prop.load(is);
+            String dir = prop.getProperty("directory");
+            if (dir != null) {
+                fc.setCurrentDirectory(new File(dir));
+            }
+        } catch (@SuppressWarnings("unused") IOException ignored) {
+        }
         fc.setFileFilter(new FileNameExtensionFilter("excel", "xls"));
-        fc.showOpenDialog(this);
+        int result = fc.showOpenDialog(this);
 
         try {
-            jTextField1.setText("");
-            namaFileExcel = fc.getSelectedFile();
-            jTextField1.setText(namaFileExcel.toString());
-            read();
+            if (result == JFileChooser.APPROVE_OPTION) {
+                String dir = fc.getCurrentDirectory().getPath();
+                prop.setProperty("directory", dir);
+                prop.store(new FileOutputStream("default.prop"), "");
+                System.out.println(fc.getCurrentDirectory());
+                jTextField1.setText("");
+                namaFileExcel = fc.getSelectedFile();
+                jTextField1.setText(namaFileExcel.toString());
+                read();
+            }
 
-        } catch (Exception ioe) {
-            System.out.println(ioe.toString());
+        } catch (IOException | BiffException ioe) {
+            ioe.printStackTrace();
         }
     }
 
@@ -283,7 +302,7 @@ public class inputan extends javax.swing.JFrame {
 
                     // ASUMSI BAHWA BARIS PERTAMA ADALAH NAMA KOLOM
                     for (int j = 0; j < jmlCol; j++) {
-                        namaKolom[j] = sheet.getCell(j, 0).getContents().toString();
+                        namaKolom[j] = sheet.getCell(j, 0).getContents();
 //                        System.out.println("nn " + namaKolom[j]);
 //                        String a = namaKolom[j];
 //                        System.out.println("a = " + a);
@@ -519,7 +538,7 @@ public class inputan extends javax.swing.JFrame {
 //        Cluster rootCluster = clusterer.cluster(data);
 //        Cluster root = clusterer.clusterAll(data);
 //        new HasilCluster(this, root).setVisible(true);
-        List<Cluster> fakeroot = clusterer.clusterCuttOff(data, input);
+        List<Cluster> fakeroot = clusterer.clusterCutOff(data, input);
         new HasilCluster(this, fakeroot).setVisible(true);
 //        new HasilCluster(this, fakeroot)instanceof .setVisible(true);
     }//GEN-LAST:event_ProsesButtonActionPerformed
@@ -529,9 +548,7 @@ public class inputan extends javax.swing.JFrame {
 
     }//GEN-LAST:event_OkButtonActionPerformed
 
-    /**
-     * jInternalFrameinputs the command line arguments
-     */
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -545,19 +562,16 @@ public class inputan extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(inputan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(inputan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(inputan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(inputan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new inputan().setVisible(true);
             }

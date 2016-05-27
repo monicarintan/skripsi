@@ -8,14 +8,8 @@ package com.ahc.view;
 import com.ahc.model.Cluster;
 //import com.ahc.model.ClusterTree;
 import com.ahc.model.ClusterTreeModel;
-import com.ahc.model.Point;
 import java.awt.Frame;
-import java.util.Enumeration;
 import java.util.List;
-import javax.swing.JTree;
-import javax.swing.event.TreeModelListener;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 
 /**
  *
@@ -26,9 +20,7 @@ public class HasilCluster extends javax.swing.JDialog {
     private final Cluster cluster;
     private final List<Cluster> clusters;
 
-    /**
-     * Creates new form HasilCluster
-     */
+
     public HasilCluster(java.awt.Frame parent, Cluster c) {
         super(parent, true);
         cluster = c;
@@ -132,19 +124,16 @@ public class HasilCluster extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(HasilCluster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(HasilCluster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(HasilCluster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(HasilCluster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 HasilCluster dialog = new HasilCluster(new javax.swing.JFrame(), (Cluster) null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {

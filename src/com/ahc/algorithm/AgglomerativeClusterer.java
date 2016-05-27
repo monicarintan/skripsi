@@ -21,7 +21,7 @@ public class AgglomerativeClusterer {
         this.method = method;
     }
 
-    public List<Cluster> clusterCuttOff(List<? extends Point> points, int nCluster) {
+    public List<Cluster> clusterCutOff(List<? extends Point> points, int nCluster) {
         ArrayList<Cluster> unclusteredPoints = new ArrayList<>();
         for (Point p : points) {
             Cluster c = new Cluster(method, p);
@@ -46,27 +46,7 @@ public class AgglomerativeClusterer {
     }
 
     public Cluster clusterAll(List<? extends Point> points) {
-        ArrayList<Cluster> unclusteredPoints = new ArrayList<>();
-        for (Point p : points) {
-            Cluster c = new Cluster(method, p);
-            unclusteredPoints.add(c);
-        }
-        while (unclusteredPoints.size() > 1) {
-            DistanceMatrix matrix = new DistanceMatrix();
-            matrix.computeAll(unclusteredPoints);
-            Pair min = matrix.getMinimumDistance();
-            Cluster c = new Cluster(method, min);
-
-            ((Cluster) min.getLeft()).setParent(c);
-
-            ((Cluster) min.getRight()).setParent(c);
-
-            unclusteredPoints.remove(min.getLeft());
-            unclusteredPoints.remove(min.getRight());
-            unclusteredPoints.add(c);
-        }
-        return unclusteredPoints.get(0);
-
+        return clusterCutOff(points, 1).get(0);
     }
 
 }

@@ -5,12 +5,9 @@
  */
 package com.ahc.model;
 
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 /**
@@ -29,6 +26,7 @@ public class ClusterTreeModel implements TreeModel {
 
         }
 
+        @Override
         public boolean isPoint() {
 
             return false;
@@ -37,14 +35,15 @@ public class ClusterTreeModel implements TreeModel {
 
     };
 
-    private Cluster root;
-    private List<Cluster> clusters;
+    private final Cluster root;
+    private final List<Cluster> clusters;
 
 //    public ClusterTreeModel(Cluster c) {
 //        cluster = c;
 //    }
     public ClusterTreeModel(Cluster c) {
         root = c;
+        clusters=null;
     }
 
     public ClusterTreeModel(List<Cluster> clusters) {
