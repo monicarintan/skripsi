@@ -10,6 +10,7 @@ import com.ahc.model.Cluster;
 import com.ahc.model.ClusterTreeModel;
 import java.awt.Frame;
 import java.util.List;
+import javax.management.Query;
 
 /**
  *
@@ -32,11 +33,24 @@ public class HasilCluster extends javax.swing.JDialog {
 //        this.cluster = cluster;
 //    }
 
-    public HasilCluster(Frame parent, List<Cluster> Clusters) {
+    public HasilCluster(Frame parent, List<Cluster> Clusters, Object[][] obj, String[] kolom) {
         super(parent, true);
         this.clusters = Clusters;
         cluster = null;
+        for (int i = 0; i < 137; i++) {
+            for (int j = 0; j < kolom.length; j++) {
+                System.out.print(obj[i][j]+" ");
+            }
+            System.out.println("");
+        }
+        for (int i = 0; i < kolom.length; i++) {
+            System.out.println(kolom[i]);
+        }
+        
+//        tabel_hasil.setAutoResizeMode(tabel_hasil.AUTO_RESIZE_ALL_COLUMNS);
+        
         initComponents();
+        tabel_hasil.setModel(new javax.swing.table.DefaultTableModel(obj, kolom));
     }
 
     /**
@@ -52,7 +66,7 @@ public class HasilCluster extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabel_hasil = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -73,7 +87,7 @@ public class HasilCluster extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabel_hasil.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -84,7 +98,7 @@ public class HasilCluster extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tabel_hasil);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -151,7 +165,7 @@ public class HasilCluster extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTree jTree1;
+    private javax.swing.JTable tabel_hasil;
     // End of variables declaration//GEN-END:variables
 }
