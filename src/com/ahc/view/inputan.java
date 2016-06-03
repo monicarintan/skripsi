@@ -476,10 +476,15 @@ public class inputan extends javax.swing.JFrame {
     private void ProsesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProsesButtonActionPerformed
 
         String cl = clusterField.getText();
-        int input = Integer.parseInt(cl);
 
-        System.out.println("input : " + input);
+        int input = 1;
+        try {
+            input = Integer.parseInt(cl);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Harap mengisi jumlah cluster dengan benar", "Jumlah cluster salah", JOptionPane.ERROR_MESSAGE);
+        }
 
+//        System.out.println("input : " + input);
         data = new ArrayList<>();
         i:
         for (int i = 0; i < ExcelTable.getModel().getRowCount(); i++) {
@@ -515,13 +520,20 @@ public class inputan extends javax.swing.JFrame {
         }
         System.out.println(data);
         ArrayList<Cluster> clusters = new ArrayList<>();
-
-        //  for(int i=0;i<data.size();i++){
-        //      Point p=data.get(i);
-        // Iterator<Point> i=data.iterator();
-        // for(Point p=i.next(); i.hasNext(); p=i.next();){
+        int methodIndex = method.getSelectedIndex();
+        Cluster.Method metode;
+        switch (methodIndex) {
+            case 1:
+                metode = Cluster.Method.SINGLE_LINKAGE;
+                break;
+            case 2:
+                metode = Cluster.Method.COMPLETE_LINKAGE;
+                break;
+            default:
+                metode = Cluster.Method.AVERAGE_LINKAGE;
+        }
         for (Point p : data) {
-            Cluster c = new Cluster(Cluster.Method.SINGLE_LINKAGE, p);
+            Cluster c = new Cluster(metode, p);
             clusters.add(c);
         }
         matrix = new DistanceMatrix();
@@ -529,70 +541,56 @@ public class inputan extends javax.swing.JFrame {
         System.out.println(matrix.toString());
 //buat nampilin map 
         Pair minimal = matrix.getMinimumDistance();
-//        Set set = minimal.entrySet();
-//        Iterator i = set.iterator)();
-//        while(i.hasNext()){
-//            Map.Entry me = (Map.Entry)i.next();
-//            System.out.print(me.getKey()+" : ");
-//            System.out.println(me.getValue());
-//        }
-//        System.out.println();
-//
         System.out.println("minimal distance " + minimal);
-//        Cluster cluster = new Cluster(Cluster.Method.SINGLE_LINKAGE);
-//
-//        System.out.println("cluster single linkage " + cluster);
-        AgglomerativeClusterer clusterer = new AgglomerativeClusterer(Cluster.Method.SINGLE_LINKAGE);
+        AgglomerativeClusterer clusterer = new AgglomerativeClusterer(metode);
 //buat yg atas
-        
+
 //        Cluster rootCluster = clusterer.cluster(data);
 //        Cluster root = clusterer.clusterAll(data);
 //        new HasilCluster(this, root).setVisible(true);
         List<Cluster> fakeroot = clusterer.clusterCutOff(data, input);
-        
+
         String[] kolom = new String[fakeroot.size()];
-        int max= 0;
+        int max = 0;
         int totalmax = 0;
         for (int i = 0; i < fakeroot.size(); i++) {
             kolom[i] = "Cluster " + i;
-            if(fakeroot.get(i).getAllPoints().size() > max){
+            if (fakeroot.get(i).getAllPoints().size() > max) {
                 max = fakeroot.get(i).getAllPoints().size();
-            } System.out.println(fakeroot.get(i));
-            totalmax = totalmax+max;
-        }System.out.println("MAX"+max);
-        System.out.println("totalmax "+totalmax);
+            }
+            System.out.println(fakeroot.get(i));
+            totalmax = totalmax + max;
+        }
+        System.out.println("MAX" + max);
+        System.out.println("totalmax " + totalmax);
 
         Object[][] value = new Object[max][kolom.length];
-        
+
+        // INI BUAT APA??? 
         for (int i = 0; i < max; i++) {
-            System.out.println("-----i"+i+"----");
+            System.out.println("-----i" + i + "----");
             for (int j = 0; j < kolom.length; j++) {
-             System.out.println("-----j"+j+"----");                   
-                    for (int l = j; l < kolom.length; l++) {
-                        if(i < fakeroot.get(j).getAllPoints().size()){
+                System.out.println("-----j" + j + "----");
+                for (int l = j; l < kolom.length; l++) {
+                    if (i < fakeroot.get(j).getAllPoints().size()) {
                         System.out.println(fakeroot.get(j).getAllPoints().get(i).toString());
-                        value[i][j]= fakeroot.get(j).getAllPoints().get(i).toString();
-                        }else{
-                           value[i][j]=0; 
-                        }
+                        value[i][j] = fakeroot.get(j).getAllPoints().get(i).toString();
+                    } else {
+                        value[i][j] = 0;
+                    }
                 }
             }
-            
+
         }
         for (int i = 0; i < max; i++) {
             for (int j = 0; j < kolom.length; j++) {
-                System.out.print(value[i][j]+" ");
+                System.out.print(value[i][j] + " ");
             }
             System.out.println("");
         }
 //        ExcelTable.setModel(new javax.swing.table.DefaultTableModel(value, kolom));
         new HasilCluster(this, fakeroot).setVisible(true);
 
-        
-     
-        
-        
-        
 //        new HasilCluster(this, fakeroot)instanceof .setVisible(true);
 
     }//GEN-LAST:event_ProsesButtonActionPerformed

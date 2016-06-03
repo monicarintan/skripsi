@@ -19,18 +19,13 @@ public class ClusterTreeModel implements TreeModel {
     private static final Cluster FAKE_ROOT = new Cluster(Cluster.Method.SINGLE_LINKAGE, (Point) null) {
 
         @Override
-
         public String toString() {
-
-            return "Fake Root";
-
+            return "";
         }
 
         @Override
         public boolean isPoint() {
-
             return false;
-
         }
 
     };
@@ -43,7 +38,7 @@ public class ClusterTreeModel implements TreeModel {
 //    }
     public ClusterTreeModel(Cluster c) {
         root = c;
-        clusters=null;
+        clusters = null;
     }
 
     public ClusterTreeModel(List<Cluster> clusters) {
@@ -71,11 +66,11 @@ public class ClusterTreeModel implements TreeModel {
         }
         return ((Cluster) parent).getPoint(index);
     }
-//    @Override
+    
 //    public int getChildCount(Object parent) {
 //        return ((Cluster) parent).isPoint() ? 0 : 2;
 //    }
-
+@Override
     public int getChildCount(Object parent) {
         if (parent == FAKE_ROOT) {
             return clusters.size();
