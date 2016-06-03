@@ -6,6 +6,7 @@
 package com.ahc.view;
 
 import com.ahc.model.Cluster;
+import com.ahc.model.ClusterTableModel;
 //import com.ahc.model.ClusterTree;
 import com.ahc.model.ClusterTreeModel;
 import java.awt.Frame;
@@ -33,24 +34,14 @@ public class HasilCluster extends javax.swing.JDialog {
 //        this.cluster = cluster;
 //    }
 
-    public HasilCluster(Frame parent, List<Cluster> Clusters, Object[][] obj, String[] kolom) {
+    public HasilCluster(Frame parent, List<Cluster> Clusters) {
         super(parent, true);
         this.clusters = Clusters;
         cluster = null;
-        for (int i = 0; i < 137; i++) {
-            for (int j = 0; j < kolom.length; j++) {
-                System.out.print(obj[i][j]+" ");
-            }
-            System.out.println("");
-        }
-        for (int i = 0; i < kolom.length; i++) {
-            System.out.println(kolom[i]);
-        }
-        
 //        tabel_hasil.setAutoResizeMode(tabel_hasil.AUTO_RESIZE_ALL_COLUMNS);
         
         initComponents();
-        tabel_hasil.setModel(new javax.swing.table.DefaultTableModel(obj, kolom));
+        tabel_hasil.setModel(new ClusterTableModel(clusters));
     }
 
     /**

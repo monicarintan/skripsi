@@ -586,7 +586,7 @@ public class inputan extends javax.swing.JFrame {
             System.out.println("");
         }
 //        ExcelTable.setModel(new javax.swing.table.DefaultTableModel(value, kolom));
-        new HasilCluster(this, fakeroot,value,kolom).setVisible(true);
+        new HasilCluster(this, fakeroot).setVisible(true);
 
         
      
