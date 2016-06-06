@@ -18,7 +18,8 @@ import static java.util.Collections.min;
 public class Cluster {
 
     private static int number = 1;
-    private final Method method;
+//    private final Method method;
+    private String method;
     private final Cluster[] clusters = new Cluster[2];
     private String id;
     private Point point;
@@ -48,7 +49,13 @@ public class Cluster {
         return clusters;
     }
 
-    public Cluster(Method method, Pair points) {
+//    public Cluster(Method method, Pair points) {
+//        this.method = method;
+//        this.clusters[0] = points.getLeft();
+//        this.clusters[1] = points.getRight();
+//    }
+    
+    public Cluster(String method, Pair points) {
         this.method = method;
         this.clusters[0] = points.getLeft();
         this.clusters[1] = points.getRight();
@@ -59,7 +66,11 @@ public class Cluster {
      * @param method
      * @param point
      */
-    public Cluster(Method method, Point point) {
+//    public Cluster(Method method, Point point) {
+//        this.method = method;
+//        this.point = point;
+//    }
+    public Cluster(String method, Point point) {
         this.method = method;
         this.point = point;
     }
@@ -128,10 +139,18 @@ public class Cluster {
                 }
             }
         }
+//        switch (method) {
+//            case SINGLE_LINKAGE:
+//                return min(dists);
+//            case COMPLETE_LINKAGE:
+//                return max(dists);
+//            default:
+//                return avg(dists);
+//        }
         switch (method) {
-            case SINGLE_LINKAGE:
+            case "SINGLE_LINKAGE":
                 return min(dists);
-            case COMPLETE_LINKAGE:
+            case "COMPLETE_LINKAGE":
                 return max(dists);
             default:
                 return avg(dists);
@@ -163,8 +182,8 @@ public class Cluster {
         return getAllPoints().toString();
     }
 
-    public enum Method {
-
-        SINGLE_LINKAGE, COMPLETE_LINKAGE, AVERAGE_LINKAGE
-    }
+//    public enum Method {
+//
+//        SINGLE_LINKAGE, COMPLETE_LINKAGE, AVERAGE_LINKAGE
+//    }
 }

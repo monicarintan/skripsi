@@ -43,7 +43,7 @@ public class ClusterTableModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-        return "Cluster #" + (column + 1);
+        return "Cluster " + (column + 1);
     }
 
     @Override

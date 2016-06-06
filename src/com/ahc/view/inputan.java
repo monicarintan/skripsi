@@ -483,6 +483,9 @@ public class inputan extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Harap mengisi jumlah cluster dengan benar", "Jumlah cluster salah", JOptionPane.ERROR_MESSAGE);
         }
+        
+        String SelectedMethod = method.getSelectedItem().toString();
+        System.out.println("selected method "+SelectedMethod );
 
 //        System.out.println("input : " + input);
         data = new ArrayList<>();
@@ -521,19 +524,21 @@ public class inputan extends javax.swing.JFrame {
         System.out.println(data);
         ArrayList<Cluster> clusters = new ArrayList<>();
         int methodIndex = method.getSelectedIndex();
-        Cluster.Method metode;
-        switch (methodIndex) {
-            case 1:
-                metode = Cluster.Method.SINGLE_LINKAGE;
-                break;
-            case 2:
-                metode = Cluster.Method.COMPLETE_LINKAGE;
-                break;
-            default:
-                metode = Cluster.Method.AVERAGE_LINKAGE;
-        }
+        
+        //ini dirubah oleh monica
+//        Cluster.Method metode;
+//        switch (methodIndex) {
+//            case 1:
+//                metode = Cluster.Method.SINGLE_LINKAGE;
+//                break;
+//            case 2:
+//                metode = Cluster.Method.COMPLETE_LINKAGE;
+//                break;
+//            default:
+//                metode = Cluster.Method.AVERAGE_LINKAGE;
+//        }
         for (Point p : data) {
-            Cluster c = new Cluster(metode, p);
+            Cluster c = new Cluster(SelectedMethod, p);
             clusters.add(c);
         }
         matrix = new DistanceMatrix();
@@ -542,7 +547,7 @@ public class inputan extends javax.swing.JFrame {
 //buat nampilin map 
         Pair minimal = matrix.getMinimumDistance();
         System.out.println("minimal distance " + minimal);
-        AgglomerativeClusterer clusterer = new AgglomerativeClusterer(metode);
+        AgglomerativeClusterer clusterer = new AgglomerativeClusterer(SelectedMethod);
 //buat yg atas
 
 //        Cluster rootCluster = clusterer.cluster(data);
@@ -564,30 +569,30 @@ public class inputan extends javax.swing.JFrame {
         System.out.println("MAX" + max);
         System.out.println("totalmax " + totalmax);
 
-        Object[][] value = new Object[max][kolom.length];
+//        Object[][] value = new Object[max][kolom.length];
 
         // INI BUAT APA??? 
-        for (int i = 0; i < max; i++) {
-            System.out.println("-----i" + i + "----");
-            for (int j = 0; j < kolom.length; j++) {
-                System.out.println("-----j" + j + "----");
-                for (int l = j; l < kolom.length; l++) {
-                    if (i < fakeroot.get(j).getAllPoints().size()) {
-                        System.out.println(fakeroot.get(j).getAllPoints().get(i).toString());
-                        value[i][j] = fakeroot.get(j).getAllPoints().get(i).toString();
-                    } else {
-                        value[i][j] = 0;
-                    }
-                }
-            }
-
-        }
-        for (int i = 0; i < max; i++) {
-            for (int j = 0; j < kolom.length; j++) {
-                System.out.print(value[i][j] + " ");
-            }
-            System.out.println("");
-        }
+//        for (int i = 0; i < max; i++) {
+//            System.out.println("-----i" + i + "----");
+//            for (int j = 0; j < kolom.length; j++) {
+//                System.out.println("-----j" + j + "----");
+//                for (int l = j; l < kolom.length; l++) {
+//                    if (i < fakeroot.get(j).getAllPoints().size()) {
+//                        System.out.println(fakeroot.get(j).getAllPoints().get(i).toString());
+//                        value[i][j] = fakeroot.get(j).getAllPoints().get(i).toString();
+//                    } else {
+//                        value[i][j] = 0;
+//                    }
+//                }
+//            }
+//
+//        }
+//        for (int i = 0; i < max; i++) {
+//            for (int j = 0; j < kolom.length; j++) {
+//                System.out.print(value[i][j] + " ");
+//            }
+//            System.out.println("");
+//        }
 //        ExcelTable.setModel(new javax.swing.table.DefaultTableModel(value, kolom));
         new HasilCluster(this, fakeroot).setVisible(true);
 

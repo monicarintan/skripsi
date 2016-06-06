@@ -287,9 +287,9 @@
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="4">
                     <StringItem index="0" value="PILIHAN METODE"/>
-                    <StringItem index="1" value="SINGLE LINKAGE"/>
-                    <StringItem index="2" value="COMPLETE LINKAGE"/>
-                    <StringItem index="3" value="AVERAGE LINKAGE"/>
+                    <StringItem index="1" value="SINGLE_LINKAGE"/>
+                    <StringItem index="2" value="COMPLETE_LINKAGE"/>
+                    <StringItem index="3" value="AVERAGE_LINKAGE"/>
                   </StringArray>
                 </Property>
               </Properties>

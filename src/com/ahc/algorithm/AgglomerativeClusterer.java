@@ -15,23 +15,30 @@ import java.util.List;
  */
 public class AgglomerativeClusterer {
 
-    private final com.ahc.model.Cluster.Method method;
+//    private final com.ahc.model.Cluster.Method method;
+    private String methode;
 
-    public AgglomerativeClusterer(com.ahc.model.Cluster.Method method) {
-        this.method = method;
+//    public AgglomerativeClusterer(com.ahc.model.Cluster.Method method) {
+//        this.method = method;
+//    }
+   
+
+    public AgglomerativeClusterer(String methode) {
+        this.methode = methode;
     }
 
     public List<Cluster> clusterCutOff(List<? extends Point> points, int nCluster) {
         ArrayList<Cluster> unclusteredPoints = new ArrayList<>();
         for (Point p : points) {
-            Cluster c = new Cluster(method, p);
+            Cluster c = new Cluster(methode, p);
             unclusteredPoints.add(c);
         }
         while (unclusteredPoints.size() > nCluster) {
             DistanceMatrix matrix = new DistanceMatrix();
             matrix.computeAll(unclusteredPoints);
             Pair min = matrix.getMinimumDistance();
-            Cluster c = new Cluster(method, min);
+//            Cluster c = new Cluster(method, min);
+            Cluster c = new Cluster(methode, min);
 
             ((Cluster) min.getLeft()).setParent(c);
 

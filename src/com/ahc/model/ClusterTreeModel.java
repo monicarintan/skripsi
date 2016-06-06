@@ -16,7 +16,7 @@ import javax.swing.tree.TreePath;
  */
 public class ClusterTreeModel implements TreeModel {
 
-    private static final Cluster FAKE_ROOT = new Cluster(Cluster.Method.SINGLE_LINKAGE, (Point) null) {
+    private static final Cluster FAKE_ROOT = new Cluster((String)null, (Point) null) {
 
         @Override
         public String toString() {
